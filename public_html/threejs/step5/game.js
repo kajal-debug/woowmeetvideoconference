@@ -120,8 +120,8 @@ class Game{
 			}else{
                 game.createCameras();
                 game.joystick = new JoyStick({
-                    onMove: game.playerControl, // callback
-                    game: game // game reference
+                    onMove: game.playerControl,
+                    game: game
                 });
 				delete game.anims;
 				game.action = "Idle";
@@ -193,29 +193,23 @@ class Game{
     
     createCameras(){
 		const offset = new THREE.Vector3(0, 80, 0);
-
 		const front = new THREE.Object3D();
 		front.position.set(112, 100, 600);
 		front.parent = this.player.object;
-
 		const back = new THREE.Object3D();
 		back.position.set(0, 300, -600);
 		back.parent = this.player.object;
-
 		const wide = new THREE.Object3D();
 		wide.position.set(178, 139, 1665);
 		wide.parent = this.player.object;
-
 		const overhead = new THREE.Object3D();
 		overhead.position.set(0, 400, 0);
 		overhead.parent = this.player.object;
-
 		const collect = new THREE.Object3D();
 		collect.position.set(40, 82, 94);
 		collect.parent = this.player.object;
-		
 		this.player.cameras = { front, back, wide, overhead, collect };
-		game.activeCamera = this.player.cameras.back;
+		game.activeCamera = this.player.cameras.back;	
 	}
     
 	animate() {

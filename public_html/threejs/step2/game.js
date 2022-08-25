@@ -85,7 +85,6 @@ class Game{
 			game.scene.add(object);
 			game.player.object = object;
 			game.player.mixer.clipAction(object.animations[0]).play();
-			console.log('animations = ' , game.player.mixer.clipAction(object.animations[0]))
             
             game.animate();
 		} );

@@ -72,12 +72,12 @@ class SpeechBubble{
 		const self = this;
 		const loader = new THREE.TextureLoader();
 		loader.load(
-			// URL
+			// resource URL
 			'assets/speech.png',
 
 			// onLoad callback
 			function ( texture ) {
-				// creating material when the texture is loaded
+				// in this example we create the material when the texture is loaded
 				self.img = texture.image;
 				self.mesh.material.map = texture;
 				self.mesh.material.transparent = true;

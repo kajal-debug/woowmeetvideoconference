@@ -43,13 +43,13 @@ http.listen(3000, function(){
 function getRooms(msg){
   const nsp = io.of('/');
   const rooms = nsp.adapter.rooms;
-  /*
+  /*Returns data in this form
   {
     'roomid1': { 'socketid1', socketid2', ...},
     ...
   }
   */
-  console.log('getRooms rooms>>' + util.inspect(rooms));
+  //console.log('getRooms rooms>>' + util.inspect(rooms));
 
   const list = {};
 	
@@ -58,12 +58,11 @@ function getRooms(msg){
 	  if (room===undefined) continue;
 	  const sockets = [];
 	  let roomName = "";
-	  console.log('getRooms room>>' + util.inspect(room));
+	  //console.log('getRooms room>>' + util.inspect(room));
 	  for(let socketId in room.sockets){
 		  const socket = nsp.connected[socketId];
-      
 		  if (socket===undefined || socket.username===undefined || socket.room===undefined) continue;
-		  console.log(`getRooms socket(${socketId})>>${socket.username}:${socket.room}`);
+		  //console.log(`getRooms socket(${socketId})>>${socket.username}:${socket.room}`);
 		  sockets.push(socket.username);
 		  if (roomName=="") roomName = socket.room;
 	  }

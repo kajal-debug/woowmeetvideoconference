@@ -5,20 +5,19 @@ const io = require('socket.io')(http);
 
 app.use(express.static('./public_html/game/'));
 app.use(express.static('./public_html/libs'));
-app.use(express.static('./public_html/game/v3'));
 app.get('/',function(req, res) {
-    res.sendFile(__dirname + './public_html/game/v3/index.html');
+    res.sendFile(__dirname + './public_html/game/index.html');
 });
- const port = process.env.PORT||5501
+
 io.sockets.on('connection', function(socket){
-	socket.userData = { x:0, y:0, z:0, heading:0 }; //Default values;
+	socket.userData = { x:0, y:0, z:0, heading:0 };//Default values;
  
 	console.log(`${socket.id} connected`);
 	socket.emit('setId', { id:socket.id });
 	
     socket.on('disconnect', function(){
 		socket.broadcast.emit('deletePlayer', { id: socket.id });
-    });	
+    });
 	
 	socket.on('init', function(data){
 		console.log(`socket.init ${data.model}`);
@@ -30,8 +29,6 @@ io.sockets.on('connection', function(socket){
 		socket.userData.heading = data.h;
 		socket.userData.pb = data.pb,
 		socket.userData.action = "Idle";
-
-		console.log(`socket.init ${data.colour}`);
 	});
 	
 	socket.on('update', function(data){
@@ -46,11 +43,10 @@ io.sockets.on('connection', function(socket){
 	socket.on('chat message', function(data){
 		console.log(`chat message:${data.id} ${data.message}`);
 		io.to(data.id).emit('chat message', { id: socket.id, message: data.message });
-	});
-
+	})
 });
 
-http.listen(port, function(){
+http.listen(5501, function(){
   console.log('listening on *:5501');
 });
 
@@ -61,7 +57,6 @@ setInterval(function(){
     for(let id in io.sockets.sockets){
         const socket = nsp.connected[id];
 		//Only push sockets that have been initialised
-		console.log('user id = '+id);
 		if (socket.userData.model!==undefined){
 			pack.push({
 				id: socket.id,
@@ -73,7 +68,7 @@ setInterval(function(){
 				heading: socket.userData.heading,
 				pb: socket.userData.pb,
 				action: socket.userData.action
-			});
+			});    
 		}
     }
 	if (pack.length>0) io.emit('remoteData', pack);
