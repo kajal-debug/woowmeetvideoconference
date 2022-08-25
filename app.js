@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-
+ const port = process.env.PORT || 5501
 app.use(express.static('./public_html/game/'));
 app.use(express.static('./public_html/libs'));
 app.get('/',function(req, res) {
@@ -46,7 +46,7 @@ io.sockets.on('connection', function(socket){
 	})
 });
 
-http.listen(5501, function(){
+http.listen(port, function(){
   console.log('listening on *:5501');
 });
 
